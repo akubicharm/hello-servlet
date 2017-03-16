@@ -22,6 +22,7 @@ import java.io.PrintWriter;
 import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -61,8 +62,22 @@ public class HelloWorldServlet extends HttpServlet {
         writer.println(PAGE_HEADER);
         writer.println("<h1>" + helloService.createHelloMessage("World") + "</h1>");
         writer.print("from DB:" + msg);
+        writer.print("SessionStatus : " + checkSession(req));
         writer.println(PAGE_FOOTER);
         writer.close();
+    }
+
+    private String checkSession(HttpServletRequest req) throws ServletException, IOException {
+      HttpSession session = req.getSession(true);
+      session.setMaxInactiveInterval(10 * 60);
+
+      if (session.isNew()) {
+          return "NEW SESSION";
+      }
+      else {
+          return "OLD SESSION";
+      }
+      
     }
     
     private String getMessageFromDB() {
