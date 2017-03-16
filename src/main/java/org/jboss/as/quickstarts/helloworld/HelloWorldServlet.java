@@ -62,7 +62,8 @@ public class HelloWorldServlet extends HttpServlet {
         writer.println(PAGE_HEADER);
         writer.println("<h1>" + helloService.createHelloMessage("World") + "</h1>");
         writer.print("from DB:" + msg);
-        writer.print("SessionStatus : " + checkSession(req));
+        writer.print("<br>HostName : " + getLocalHost().getHostName());
+        writer.print("<br>SessionStatus : " + checkSession(req));
         writer.println(PAGE_FOOTER);
         writer.close();
     }
